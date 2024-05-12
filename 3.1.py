@@ -5,7 +5,7 @@ service_tickets = {
 
 def ticket_status_filter(): #filters by closed or open status tickets
     while True:
-        choice = input("Filter tickets by open/closed?")
+        choice = input("Filter tickets by open/closed? (yes/no) ")
         if choice.lower() == "yes":
             close_open = input("Would you like to see open or closed tickets? ")
             if close_open.lower() == "closed":
@@ -35,13 +35,17 @@ def all_status(): #displays all tickets
         print(ticketnum + ":")
         for issue in customer:
             print(issue + ":", customer[issue])
-    # ticket_status_filter()
+    ticket_status_filter()
 
 def open(): #open tickets
     i = 3
     while True:
         cust_name = input("What is the customer's name? ")
+        if cust_name.lower() == "end":
+            break
         issue_name = input("What is the issue? ")
+        if issue_name.lower() == "end":
+                break
         ticketnum = "Ticket00"+str(i)
         service_tickets.update({ticketnum: {"Customer": cust_name, "Issue": issue_name, "Status": "open"}})
         i+=1
@@ -49,10 +53,17 @@ def open(): #open tickets
         print(f"Customer: " + service_tickets[ticketnum]["Customer"])
         print(f"Issue: " + service_tickets[ticketnum]["Issue"])
         print(f"Status: " + service_tickets[ticketnum]["Status"])
-        # all_status()
+        again = input("Would you like to open another ticket? ")
+        if again.lower() == "yes":
+            continue
+        else:
+            break
 
 def update(): #update ticket customer name, issue name, or close ticket
     while True:
+        see_tickets = input("See all tickets? (yes/no) ")
+        if see_tickets.lower() == "yes":
+            all_status()
         ticketnum = ("Ticket"+str(input("Enter ticket ID number: ")))
         print(ticketnum)
         if ticketnum in service_tickets:
@@ -92,12 +103,17 @@ def close():
                 print(service_tickets[ticketnum])
             else:
                 print("Command not recognized. Please try again.")
+            again = input("Would you like to open another ticket? ")
+            if again.lower() == "yes":
+                continue
+            else:
+                break
         else:
             print("This ticket number does not exist!")
 
 while True:
-    print
-    display = input("Welcome to ticket tracking software! Which of the following options would you like to do: \n 1. Display all tickets \n 2. Filter by open or closed tickets \n 3. Open a new ticket \n 4. Update properties of a ticket 5. Close a ticket \n >> ")
+    print()
+    display = input("Welcome to ticket tracking software! Which of the following options would you like to do: \n 1. Display all tickets \n 2. Filter by open or closed tickets \n 3. Open a new ticket \n 4. Update properties of a ticket \n 5. Close a ticket \n >> ")
     if str(display) == "1":
         all_status()
     elif str(display) == "2":
